@@ -6,6 +6,7 @@
 #include "Vecteur3D.h"
 
 class Mobile {
+protected:
     std::string nom;
     Vecteur3D position;
     Vecteur3D vitesse;

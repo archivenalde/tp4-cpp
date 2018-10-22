@@ -1,8 +1,10 @@
 #include "Mobile.h"
+#include "MobilePesant.h"
 #include "Vecteur3D.h"
 #include "Simulation.h"
 
 #include <iostream>
+#include <cmath>
 
 bool testMobile1()
 {
@@ -20,6 +22,25 @@ bool testMobile1()
             res &= false;
 
     return res;
+}
+
+bool testMobile2() {
+    double hauteur = 15;
+    MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(10, 10, hauteur), Vecteur3D(0, 0, 0));
+    double tpsChute = 0, dt = 0.0001;
+    double tpsChuteTheorique = sqrt(2 * hauteur/9.81);
+
+    mp.affiche();
+    while(mp.getPosition().z > 0)
+    {
+        mp.avance(dt);
+        tpsChute += dt;
+    }
+    std::cout << "Temps de chute : " << tpsChute << std::endl;
+    mp.affiche();
+
+    return (tpsChute - dt <= tpsChuteTheorique || tpsChute + dt >= tpsChuteTheorique );
+
 }
 
 bool testSimulation1()

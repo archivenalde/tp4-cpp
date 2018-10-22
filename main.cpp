@@ -7,6 +7,6 @@
 
 int main(int argc, char const *argv[]) {
 
-    std::cout << testSimulation1() << std::endl;
+    std::cout << testMobile2() << std::endl;
     return 0;
 }

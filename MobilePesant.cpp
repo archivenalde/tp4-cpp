@@ -1,8 +1,17 @@
+#include <string>
+
 #include "MobilePesant.h"
+#include "Vecteur3D.h"
 
-Vecteur3D Vecteur3D::G = Vecteur3D(0, 0, -9.81)
+Vecteur3D MobilePesant::G = Vecteur3D(0, 0, -9.81);
 
-double MobilePesant::getMasse(void) const {
+MobilePesant::MobilePesant(double _masse, const std::string _nom, Vecteur3D _pos, Vecteur3D _vit)
+: Mobile(_nom, _pos, _vit), masse(_masse)
+{}
+
+
+double MobilePesant::getMasse(void) const
+{
     return masse;
 }
 
@@ -10,3 +19,6 @@ void MobilePesant::avance(double dt) {
     position = position + dt*vitesse;
     vitesse = vitesse + dt*G;
 }
+
+MobilePesant::~MobilePesant()
+{}

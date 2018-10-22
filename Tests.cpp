@@ -139,5 +139,41 @@ bool testSimulation3()
 
 bool testSimulation4()
 {
-    
+    Simulation s1;
+    Mobile m("Test Mobile Pas Pesant", Vecteur3D(0, 0, 0), Vecteur3D(1, 1, 1));
+    MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(10, 10, 10), Vecteur3D(0, 0, 0));
+    int compteur = 0;
+
+    s1.ajoutCorps(&m);
+    s1.ajoutCorps(&mp);
+
+    Simulation s2(s1);
+
+    s1.afficheCorps();
+    s2.afficheCorps();
+
+
+    if (s2.getTemps() == s1.getTemps())
+    {
+        for (Mobile* it : s1.getCorps())
+        {
+            if (compteur == 0 && !(*it == m))
+                return false;
+            if (compteur == 1 && !(*it == mp))
+                return false;
+            compteur++;
+        }
+        compteur = 0;
+        for (Mobile* it : s2.getCorps())
+        {
+            if (compteur == 0 && !(*it == m))
+                return false;
+            if (compteur == 1 && !(*it == mp))
+                return false;
+            compteur++;
+        }
+        return true;
+    }
+
+    return false;
 }

@@ -9,6 +9,13 @@ Simulation::Simulation(double _temps)
 : temps(_temps)
 {}
 
+Simulation::Simulation(const Simulation& s)
+{
+    temps = s.temps;
+    for (Mobile* it : s.corps)
+        corps.push_back(it->copie());
+}
+
 double Simulation::getTemps() const
 {
     return temps;

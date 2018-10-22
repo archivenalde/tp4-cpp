@@ -11,6 +11,7 @@ class Simulation {
 
 public:
     Simulation(double _temps = 0);
+    Simulation(const Simulation&);
 
     double getTemps(void) const;
     std::list<Mobile*> getCorps(void) const;

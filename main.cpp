@@ -7,6 +7,6 @@
 
 int main(int argc, char const *argv[]) {
 
-    std::cout << testSimulation3() << std::endl;
+    std::cout << testSimulation4() << std::endl;
     return 0;
 }

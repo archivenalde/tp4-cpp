@@ -10,6 +10,14 @@ Mobile::Mobile(const std::string& _nom, Vecteur3D _pos, Vecteur3D _vit)
 : nom(_nom), position(_pos), vitesse(_vit)
 {}
 
+
+
+Mobile* Mobile::copie() const
+{
+    Mobile* mc = new Mobile(*this);
+    return mc;
+}
+
 void Mobile::avance(double dt)
 {
     position = position + dt*vitesse;

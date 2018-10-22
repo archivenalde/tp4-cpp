@@ -9,6 +9,12 @@ MobilePesant::MobilePesant(double _masse, const std::string _nom, Vecteur3D _pos
 : Mobile(_nom, _pos, _vit), masse(_masse)
 {}
 
+Mobile* MobilePesant::copie() const
+{
+    Mobile* mc = new MobilePesant(*this);
+    return mc;
+}
+
 
 double MobilePesant::getMasse(void) const
 {

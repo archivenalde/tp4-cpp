@@ -21,7 +21,7 @@ std::list<Mobile*> Simulation::getCorps() const
 
 void Simulation::ajoutCorps(Mobile* _m)
 {
-    corps.push_back(new Mobile(*_m));
+    corps.push_back(_m->copie());
 }
 
 void Simulation::oteCorps(Mobile* _m)
@@ -38,7 +38,7 @@ void Simulation::oteCorps(Mobile* _m)
 
 void Simulation::afficheCorps(void) const
 {
-    std::cout << "Affichage de la liste des mobiles : " << std::endl;
+    std::cout << "Affichage de la liste des mobiles au temps " << temps << " : " << std::endl;
     for (Mobile *it : corps)
     {
         it->affiche();

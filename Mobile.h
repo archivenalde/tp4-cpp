@@ -15,7 +15,9 @@ public:
     Mobile(const std::string& _nom = "Pas de nom");
     Mobile(const std::string&, Vecteur3D _pos, Vecteur3D _vit);
 
-    void avance(double dt);
+    virtual Mobile* copie() const;
+
+    virtual void avance(double dt);
 
     const std::string& getNom(void) const;
     const Vecteur3D& getPosition(void) const;
@@ -27,7 +29,7 @@ public:
 
     void affiche();
 
-    ~Mobile();
+    virtual ~Mobile();
 };
 
 bool operator==(const Mobile& a, const Mobile& b);

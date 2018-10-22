@@ -114,3 +114,30 @@ bool testSimulation2()
     delete s;
     return true;
 }
+
+bool testSimulation3()
+{
+    Simulation s;
+    double dt = 0.4;
+    Mobile m("Test Mobile Pas Pesant", Vecteur3D(0, 0, 0), Vecteur3D(1, 1, 1));
+    MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(10, 10, 10), Vecteur3D(0, 0, 0));
+
+    s.ajoutCorps(&m);
+    s.ajoutCorps(&mp);
+
+    s.afficheCorps();
+
+    while (s.getTemps() < 4)
+    {
+        s.simuler(dt);
+        s.afficheCorps();
+    }
+
+    return true;
+}
+
+
+bool testSimulation4()
+{
+    
+}

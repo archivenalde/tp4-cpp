@@ -2,6 +2,7 @@
 #include "MobilePesant.h"
 #include "Vecteur3D.h"
 #include "Simulation.h"
+#include "Terre.h"
 
 #include <iostream>
 #include <cmath>
@@ -25,13 +26,13 @@ bool testMobile1()
 }
 
 bool testMobile2() {
-    double hauteur = 15;
-    MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(10, 10, hauteur), Vecteur3D(0, 0, 0));
+    double hauteur = 6377999 + 2;
+    MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(0, 0, hauteur), Vecteur3D(0, 0, 0));
     double tpsChute = 0, dt = 0.0001;
-    double tpsChuteTheorique = sqrt(2 * hauteur/9.81);
+    double tpsChuteTheorique = sqrt(2 * (hauteur - 6377999)/9.79);
 
     mp.affiche();
-    while(mp.getPosition()[2] > 0)
+    while(mp.getPosition()[2] > 6377999)
     {
         mp.avance(dt);
         tpsChute += dt;
@@ -39,7 +40,9 @@ bool testMobile2() {
     std::cout << "Temps de chute : " << tpsChute << std::endl;
     mp.affiche();
 
-    return (tpsChute - dt <= tpsChuteTheorique || tpsChute + dt >= tpsChuteTheorique );
+    std::cout << tpsChuteTheorique << std::endl;
+
+    return (tpsChute - 0.5 <= tpsChuteTheorique && tpsChute + 0.5 >= tpsChuteTheorique );
 
 }
 
@@ -197,4 +200,49 @@ bool testVecteur3D()
         return false;
 
     return res;
+}
+
+bool testTerre()
+{
+    Terre* t = Terre::getInstance();
+    Vecteur3D point(6378000, 0, 0);
+    /*Terre t2(*t);*/
+    Vecteur3D g = t->gravite(point);
+    std::cout << g << std::endl;
+    if (g[0] >= -9.81 && g[0] <= -9.79)
+        return true;
+    return false;
+}
+
+
+bool testSatellite1()
+{
+    Terre* t = Terre::getInstance();
+    Simulation s;
+    int hauteur = 200000;
+    Vecteur3D positionSatellite(hauteur + t->getRT(), 0, 0);
+    Vecteur3D vitesseSatellite(0, sqrt((long double)t->getGM()/(t->getRT() + hauteur)), 0);
+    MobilePesant satellite(150, "Satellite", positionSatellite, vitesseSatellite);
+    double dt = 0.1;
+    double tpsSimulation = 2*M_PI*sqrt(pow(t->getRT() + hauteur, 3) / t->getGM());
+    double incertitude = 1000;
+
+    s.ajoutCorps(&satellite);
+    std::cout << "Position de départ du satellite : " << positionSatellite << std::endl;
+    std::cout << "Vitesse de départ du satellite : " << vitesseSatellite << std::endl;
+
+    while (s.getTemps() < tpsSimulation)
+    {
+        s.simuler(dt);
+    }
+
+    Vecteur3D positionArrivee = s.getCorps().front()->getPosition();
+    Vecteur3D vitesseArrivee = s.getCorps().front()->getPosition();
+
+    std::cout << "Position d'arrive du satellite : " << positionArrivee << std::endl;
+    std::cout << "Vitesse d'arrive du satellite : " << vitesseArrivee << std::endl;
+
+    if (positionSatellite[1] + incertitude >= positionArrivee[1] && positionSatellite[1] - incertitude <= positionArrivee[1])
+        return true;
+    return false;
 }

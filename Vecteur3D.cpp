@@ -1,12 +1,12 @@
 #include <iostream>
-
+#include <cmath>
 #include "Vecteur3D.h"
 
 Vecteur3D::Vecteur3D(double _x, double _y, double _z)
 :x(_x), y(_y), z(_z)
 {}
 
-void Vecteur3D::affiche()
+void Vecteur3D::affiche() const
 {
     std::cout << "("<< x << ", " << y << ", " << z << ")";
 }
@@ -56,9 +56,34 @@ void Vecteur3D::operator+=(Vecteur3D const& v)
     this->z += v.z;
 }
 
+void Vecteur3D::operator-=(Vecteur3D const& v)
+{
+    this->x -= v.x;
+    this->y -= v.y;
+    this->z -= v.z;
+}
+
  void Vecteur3D::operator=(Vecteur3D const& v)
  {
      this->x = v.x;
      this->y = v.y;
      this->z = v.z;
  }
+
+void Vecteur3D::operator-(void)
+{
+    this->x = -x;
+    this->y = -y;
+    this->z = -z;
+}
+
+double Vecteur3D::norme() const
+{
+    return sqrt(x*x + y*y + z*z);
+}
+
+std::ostream& operator<<(std::ostream& os, const Vecteur3D& v)
+{
+    os << "("<< v[0] << ", " << v[1] << ", " << v[2] << ")";
+    return os;
+}

@@ -7,7 +7,7 @@
 
 int main(int argc, char const *argv[]) {
 
-    std::cout << testSimulation4() << std::endl;
+    std::cout << testSatellite1() << std::endl;
 
     return 0;
 }

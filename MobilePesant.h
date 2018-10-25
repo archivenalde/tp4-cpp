@@ -5,7 +5,6 @@
 
 class MobilePesant : public Mobile
 {
-    static Vecteur3D G;
     double masse;
 
 public:

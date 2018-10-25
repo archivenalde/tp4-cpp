@@ -11,14 +11,14 @@ bool testMobile1()
     bool res = true;
     Mobile m("test", Vecteur3D(1, 1, 1), Vecteur3D(0, 2, 3));
 
-    if (m.getPosition().x != 1 || m.getPosition().y != 1 || m.getPosition().z != 1)
-        if (m.getVitesse().x != 0 || m.getVitesse().y != 2 || m.getVitesse().z != 3)
+    if (m.getPosition()[0] != 1 || m.getPosition()[1] != 1 || m.getPosition()[2] != 1)
+        if (m.getVitesse()[0] != 0 || m.getVitesse()[1] != 2 || m.getVitesse()[2] != 3)
             res &= false;
 
     m.avance(5);
 
-    if (m.getPosition().x != 1 || m.getPosition().y != 11 || m.getPosition().z != 16)
-        if (m.getVitesse().x != 0 || m.getVitesse().y != 2 || m.getVitesse().z != 3)
+    if (m.getPosition()[0] != 1 || m.getPosition()[1] != 11 || m.getPosition()[2] != 16)
+        if (m.getVitesse()[0] != 0 || m.getVitesse()[1] != 2 || m.getVitesse()[2] != 3)
             res &= false;
 
     return res;
@@ -31,7 +31,7 @@ bool testMobile2() {
     double tpsChuteTheorique = sqrt(2 * hauteur/9.81);
 
     mp.affiche();
-    while(mp.getPosition().z > 0)
+    while(mp.getPosition()[2] > 0)
     {
         mp.avance(dt);
         tpsChute += dt;
@@ -176,4 +176,25 @@ bool testSimulation4()
     }
 
     return false;
+}
+
+bool testVecteur3D()
+{
+    bool res = true;
+    Vecteur3D v(1, 2, 3);
+    Vecteur3D v2;
+    Vecteur3D v3 = v;
+    v2 = v;
+
+    if (v2 != v)
+        return res &= false;
+    if (v3 != v2)
+        return res &= false;
+
+    Vecteur3D v4 = 3*v3;
+
+    if (!(v4[0] == 3 && v4[1] == 6 && v4[2] == 9))
+        return false;
+
+    return res;
 }

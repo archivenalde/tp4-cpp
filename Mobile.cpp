@@ -20,7 +20,7 @@ Mobile* Mobile::copie() const
 
 void Mobile::avance(double dt)
 {
-    position = position + dt*vitesse;
+    position += dt*vitesse;
 }
 
 const std::string& Mobile::getNom(void) const

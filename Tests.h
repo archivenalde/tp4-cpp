@@ -7,5 +7,6 @@ bool testSimulation1();
 bool testSimulation2();
 bool testSimulation3();
 bool testSimulation4();
+bool testVecteur3D();
 
 #endif

@@ -8,5 +8,6 @@
 int main(int argc, char const *argv[]) {
 
     std::cout << testSimulation4() << std::endl;
+
     return 0;
 }

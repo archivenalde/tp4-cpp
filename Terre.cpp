@@ -1,9 +1,9 @@
-#include "Terre.h"
-
 #include <cmath>
 
-unsigned long Terre::GM = 3986 * pow(10, 11);
-unsigned long Terre::RT = 6378000;
+#include "Terre.h"
+
+unsigned long long Terre::GM = 3986 * pow(10, 11);
+unsigned long long Terre::RT = 6378000;
 Terre* Terre::instance = 0;
 
 Terre::Terre()

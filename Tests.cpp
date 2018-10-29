@@ -204,14 +204,19 @@ bool testVecteur3D()
 
 bool testTerre()
 {
+    bool res = true;
     Terre* t = Terre::getInstance();
+    Terre* terreTest = Terre::getInstance();
     Vecteur3D point(6378000, 0, 0);
     /*Terre t2(*t);*/
     Vecteur3D g = t->gravite(point);
     std::cout << g << std::endl;
-    if (g[0] >= -9.81 && g[0] <= -9.79)
-        return true;
-    return false;
+    if(g[0] < -9.81 || g[0] > -9.79)
+        res &= false;
+    if(t != terreTest)
+        res &= false;
+
+    return res;
 }
 
 
@@ -225,6 +230,7 @@ bool testSatellite1()
     MobilePesant satellite(150, "Satellite", positionSatellite, vitesseSatellite);
     double dt = 0.1;
     double tpsSimulation = 2*M_PI*sqrt(pow(t->getRT() + hauteur, 3) / t->getGM());
+    std::cout << "Temps de simulation : " << (int)(tpsSimulation/3600.0)  << "h" << ((int)tpsSimulation%3600)/60 << "m" << (int)tpsSimulation%60 << "s" << std::endl;
     double incertitude = 1000;
 
     s.ajoutCorps(&satellite);
@@ -232,17 +238,78 @@ bool testSatellite1()
     std::cout << "Vitesse de départ du satellite : " << vitesseSatellite << std::endl;
 
     while (s.getTemps() < tpsSimulation)
-    {
         s.simuler(dt);
-    }
 
     Vecteur3D positionArrivee = s.getCorps().front()->getPosition();
-    Vecteur3D vitesseArrivee = s.getCorps().front()->getPosition();
+    Vecteur3D vitesseArrivee = s.getCorps().front()->getVitesse();
 
     std::cout << "Position d'arrive du satellite : " << positionArrivee << std::endl;
     std::cout << "Vitesse d'arrive du satellite : " << vitesseArrivee << std::endl;
 
     if (positionSatellite[1] + incertitude >= positionArrivee[1] && positionSatellite[1] - incertitude <= positionArrivee[1])
+        return true;
+    return false;
+}
+
+
+bool testSatellite2()
+{
+    Terre* t = Terre::getInstance();
+    Simulation s;
+    int hauteur = 820000;
+    MobilePesant satellite(150, "SPOT", t->getRT() + hauteur, 0, 0, 97.8);
+    Vecteur3D positionDepart, positionArrivee;
+    double dt = 0.1;
+    double tpsSimulation = 2 * M_PI * sqrt((double)pow(t->getRT() + hauteur, 3) / t->getGM());
+    std::cout << "Temps de simulation : " << (int) (tpsSimulation/3600.0)  << "h" << ((int)tpsSimulation%3600)/60 << "m" << (int)tpsSimulation%60 << "s" << std::endl;
+    double incertitude = 1000;
+
+    s.ajoutCorps(&satellite);
+    positionDepart = satellite.getPosition();
+    std::cout << "Position de départ du satellite SPOT : " << positionDepart << std::endl;
+    std::cout << "Vitesse de départ du satellite SPOT : " << satellite.getVitesse().norme() << " m.s^(-1)" << std::endl;
+
+    while (s.getTemps() <= tpsSimulation)
+        s.simuler(dt);
+
+    positionArrivee = s.getCorps().front()->getPosition();
+    std::cout << "Position d'arrivee du satellite SPOT : " << positionArrivee << std::endl;
+
+    Vecteur3D ecart = positionDepart-positionArrivee;
+    if (ecart.norme() < incertitude)
+        return true;
+    return false;
+}
+
+
+bool testLune()
+{
+    Terre* t = Terre::getInstance();
+    Simulation s;
+    int hauteur = 378027000;
+    MobilePesant satellite(7.42*pow(10, 22), "Lune", t->getRT() + hauteur, 0, 0, 28.58);
+    Vecteur3D positionDepart, positionArrivee;
+    double dt = 0.1;
+    double tpsSimulation = 2 * M_PI * sqrt((double)pow(t->getRT() + hauteur, 3) / t->getGM());
+    std::cout << "Temps de simulation : ";
+    if (tpsSimulation > 3600*24)
+        std::cout <<  (int) (tpsSimulation/(3600.0*24)) << "j";
+    std::cout <<  (int) (tpsSimulation/3600.0)%24  << "h" << ((int)tpsSimulation%3600)/60 << "m" << (int)tpsSimulation%60 << "s" << std::endl;
+    double incertitude = 1000;
+
+    s.ajoutCorps(&satellite);
+    positionDepart = satellite.getPosition();
+    std::cout << "Position de départ de la Lune : " << positionDepart << std::endl;
+    std::cout << "Vitesse de départ de la Lune : " << satellite.getVitesse().norme() << " m.s^(-1)" << std::endl;
+
+    while (s.getTemps() <= tpsSimulation)
+        s.simuler(dt);
+
+    positionArrivee = s.getCorps().front()->getPosition();
+    std::cout << "Position d'arrivee de la Lune : " << positionArrivee << std::endl;
+
+    Vecteur3D ecart = positionDepart-positionArrivee;
+    if (ecart.norme() < incertitude)
         return true;
     return false;
 }

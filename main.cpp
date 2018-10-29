@@ -5,9 +5,9 @@
 #include "Simulation.h"
 #include "Tests.h"
 
-int main(int argc, char const *argv[]) {
-
-    std::cout << testSatellite1() << std::endl;
+int main(int argc, char const *argv[])
+{
+    std::cout << testLune() << std::endl;
 
     return 0;
 }

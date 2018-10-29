@@ -14,5 +14,7 @@ bool testVecteur3D();
 bool testTerre();
 
 bool testSatellite1();
+bool testSatellite2();
+bool testLune();
 
 #endif

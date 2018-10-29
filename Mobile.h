@@ -12,7 +12,7 @@ protected:
     Vecteur3D vitesse;
 
 public:
-    Mobile(const std::string& _nom = "Pas de nom");
+    Mobile(const std::string& _nom);
     Mobile(const std::string&, Vecteur3D _pos, Vecteur3D _vit);
 
     virtual Mobile* copie() const;

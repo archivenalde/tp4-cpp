@@ -6,8 +6,8 @@
 
 
 class Terre {
-    static unsigned long GM;
-    static unsigned long RT;
+    static unsigned long long GM;
+    static unsigned long long RT;
 
     static Terre* instance;
     Terre();

@@ -7,7 +7,7 @@
 
 int main(int argc, char const *argv[])
 {
-    std::cout << testLune() << std::endl;
+    std::cout << testMobile1() << std::endl;
 
     return 0;
 }

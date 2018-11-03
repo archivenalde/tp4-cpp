@@ -26,7 +26,7 @@ MobilePesant::MobilePesant(double _masse, const std::string _nom, double x, doub
         position.normaliser(n);
     }
 
-    vitesse = normal^position;
+    vitesse = normal^position; // Calcul du produit scalaire entre le vecteur normal a l'inclinaison et la position
     vitesse.normaliser(sqrt(t->getGM()/position.norme()));
 }
 
@@ -45,7 +45,6 @@ void MobilePesant::avance(double dt) {
     Terre* t = Terre::getInstance();
     position += dt*vitesse;
     vitesse += dt*t->gravite(position);
-    delete t;
 }
 
 MobilePesant::~MobilePesant()

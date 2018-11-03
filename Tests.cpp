@@ -26,6 +26,7 @@ bool testMobile1()
 }
 
 bool testMobile2() {
+    //Terre *t = Terre::getInstance(); //Initialisation de la Terre pour l'utilisation de la classe MobilePesant
     double hauteur = 6377999 + 2;
     MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(0, 0, hauteur), Vecteur3D(0, 0, 0));
     double tpsChute = 0, dt = 0.0001;
@@ -41,7 +42,7 @@ bool testMobile2() {
     mp.affiche();
 
     std::cout << tpsChuteTheorique << std::endl;
-
+    //delete t;
     return (tpsChute - 0.5 <= tpsChuteTheorique && tpsChute + 0.5 >= tpsChuteTheorique );
 
 }
@@ -62,6 +63,7 @@ bool testSimulation1()
     std::list<Mobile*> c = simu.getCorps();
     for (Mobile* it : c)
     {
+        std::cout << "ici" << std::endl;
         if (*it == m1)
         {
             res &= (it->getPosition() == Vecteur3D (0, 0, 0) && it->getVitesse() == Vecteur3D (2, 0, 3));
@@ -81,6 +83,7 @@ bool testSimulation1()
 
     for (Mobile* it : c)
     {
+        std::cout << "la" << std::endl;
         it->affiche();
         m1bis.affiche();
         m2bis.affiche();
@@ -117,6 +120,7 @@ bool testSimulation2()
 
 bool testSimulation3()
 {
+    (void)Terre::getInstance(); //Initialisation de la Terre
     Simulation s;
     double dt = 0.4;
     Mobile m("Test Mobile Pas Pesant", Vecteur3D(0, 0, 0), Vecteur3D(1, 1, 1));
@@ -132,13 +136,14 @@ bool testSimulation3()
         s.simuler(dt);
         s.afficheCorps();
     }
-
+    //delete t;
     return true;
 }
 
 
 bool testSimulation4()
 {
+    
     Simulation s1;
     Mobile m("Test Mobile Pas Pesant", Vecteur3D(0, 0, 0), Vecteur3D(1, 1, 1));
     MobilePesant mp(5, "Test Mobile Pesant", Vecteur3D(10, 10, 10), Vecteur3D(0, 0, 0));
@@ -174,7 +179,7 @@ bool testSimulation4()
         }
         return true;
     }
-
+    //delete t;
     return false;
 }
 
@@ -221,13 +226,15 @@ bool testTerre()
     if(t != terreTest)
         res &= false;
 
+    Terre::destroyInstance();
+
     return res;
 }
 
 
 bool testSatellite1()
 {
-    Terre* t = Terre::getInstance();
+    Terre* t = Terre::getInstance(); //Initialisation de la Terre
     Simulation s;
     int hauteur = 200000;
     Vecteur3D positionSatellite(hauteur + t->getRT(), 0, 0);
@@ -251,6 +258,7 @@ bool testSatellite1()
     std::cout << "Position d'arrive du satellite : " << positionArrivee << std::endl;
     std::cout << "Vitesse d'arrive du satellite : " << vitesseArrivee << std::endl;
 
+    Terre::destroyInstance();
     if (positionSatellite[1] + incertitude >= positionArrivee[1] && positionSatellite[1] - incertitude <= positionArrivee[1])
         return true;
     return false;
@@ -259,7 +267,7 @@ bool testSatellite1()
 
 bool testSatellite2()
 {
-    Terre* t = Terre::getInstance();
+    Terre* t = Terre::getInstance(); //Initialisation de la Terre
     Simulation s;
     int hauteur = 820000;
     MobilePesant satellite(150, "SPOT", t->getRT() + hauteur, 0, 0, 98.7);
@@ -281,6 +289,7 @@ bool testSatellite2()
     std::cout << "Position d'arrivee du satellite SPOT : " << positionArrivee << std::endl;
 
     Vecteur3D ecart = positionDepart-positionArrivee;
+    Terre::destroyInstance();
     if (ecart.norme() < incertitude)
         return true;
     return false;
@@ -289,7 +298,7 @@ bool testSatellite2()
 
 bool testLune()
 {
-    Terre* t = Terre::getInstance();
+    Terre* t = Terre::getInstance(); //Initialisation de la Terre
     Simulation s;
     int hauteur = 378027000;
     MobilePesant satellite(7.42*pow(10, 22), "Lune", t->getRT() + hauteur, 0, 0, 28.58);
@@ -314,6 +323,7 @@ bool testLune()
     std::cout << "Position d'arrivee de la Lune : " << positionArrivee << std::endl;
 
     Vecteur3D ecart = positionDepart-positionArrivee;
+    Terre::destroyInstance();
     if (ecart.norme() < incertitude)
         return true;
     return false;

@@ -3,10 +3,13 @@
 #include "Mobile.h"
 #include "Vecteur3D.h"
 #include "Simulation.h"
+#include "Terre.h"
 #include "Tests.h"
 
 int main(int argc, char const *argv[])
 {
+    (void)Terre::getInstance(); //Initialisation de la Terre
+
     std::cout << "---------------Test Mobile 1---------------" << std::endl;
     std::cout << testMobile1() << std::endl;
 
@@ -34,11 +37,11 @@ int main(int argc, char const *argv[])
     std::cout << "---------------Test Satellite 1---------------" << std::endl;
     std::cout << testSatellite1() << std::endl;
 
-    std::cout << "---------------Test Satellite 1---------------" << std::endl;
-    std::cout << testSatellite1() << std::endl;
 
     std::cout << "---------------Test Lune---------------" << std::endl;
     std::cout << testLune() << std::endl;
+
+    Terre::destroyInstance(); //Destruction de l'instance de la Terre
 
     return 0;
 }

@@ -1,5 +1,5 @@
 CC = g++
-CCFLAGS= -Wall -pedantic -ggdb
+CCFLAGS= -Wall -pedantic -ggdb -std=c++11
 EXTC = cpp
 EXTH = h
 EXECUTABLE = main
